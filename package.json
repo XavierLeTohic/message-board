@@ -4,9 +4,9 @@
   "description": "A message board with public and private messages",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start",
+    "start": "NODE_ENV=production node server.js",
     "build-test": "npm run lint && npm run build && npm run test",
     "test": "npm run test:unit && npm run test:cypress",
     "test:unit": "npx jest",
@@ -27,9 +27,13 @@
   },
   "dependencies": {
     "@zeit/next-stylus": "^1.0.1",
+    "express": "^4.17.1",
+    "isomorphic-unfetch": "^3.0.0",
     "next": "^8.1.0",
+    "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "shortid": "^2.2.14",
     "stylus": "^0.54.5"
   },
   "devDependencies": {
@@ -40,6 +44,7 @@
     "eslint-plugin-import": "^2.18.0",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.2",
+    "faker": "^4.1.0",
     "husky": "^3.0.0",
     "jest": "^24.8.0",
     "lint-staged": "^9.0.2",
