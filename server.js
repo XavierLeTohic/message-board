@@ -1,7 +1,7 @@
 const express = require('express')
 const next = require('next')
 
-const generateFakeMessages = require('./src/utils/generateFakeMessages');
+const generateFakeMessages = require('./src/utils/generateFakeMessages')
 
 const dev = process.env.NODE_ENV !== 'production'
 const app = next({ dev })

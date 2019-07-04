@@ -1,2 +1,4 @@
 const withStylus = require('@zeit/next-stylus')
-module.exports = withStylus({})
+module.exports = withStylus({
+  cssModules: true,
+})

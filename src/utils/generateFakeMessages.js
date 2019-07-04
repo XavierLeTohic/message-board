@@ -5,11 +5,11 @@ const faker = require('faker')
  * @param {Integer} nbrOfMessages Number of messages to be generated
  * @returns {Array.<Object>}
  */
-const generateFakeMessages = nbrOfMessages => {
-  return Array.from({ length: nbrOfMessages }, () => ({
+const generateFakeMessages = nbrOfMessages =>
+  Array.from({ length: nbrOfMessages }, () => ({
     author: faker.name.findName(),
     content: faker.hacker.phrase(),
+    avatar: faker.image.avatar(),
   }))
-}
 
 module.exports = generateFakeMessages
