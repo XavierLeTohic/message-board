@@ -30,9 +30,11 @@ const ObserverMessageList = observer(
 
       return (
         <div className={styles.container}>
-          {messages.map(props => (
-            <Message {...props} key={props.uuid} username={username} />
-          ))}
+          <div data-test="messages">
+            {messages.map((props, k) => (
+              <Message {...props} key={props.uuid} username={username} data-test={`message-${k}`} />
+            ))}
+          </div>
           <div
             ref={el => {
               this.end = el

@@ -61,6 +61,7 @@ const ObserverBottomBar = observer(
             placeholder="Type a message"
             value={this.value.get()}
             onChange={this.onValueChange.bind(this)}
+            data-test="messageInput"
           />
           <label className={styles.privacyCheckbox} htmlFor="privacyCheckbox">
             <input
@@ -70,6 +71,7 @@ const ObserverBottomBar = observer(
               alt="Make your message private"
               checked={this.isPrivate.get()}
               onChange={({ target: { checked } }) => this.isPrivate.set(checked === true)}
+              data-test="privacyCheckbox"
             />
             <span className={styles.checkbox}></span>
           </label>
@@ -81,6 +83,7 @@ const ObserverBottomBar = observer(
               [styles.sendButton]: true,
               [styles.disabled]: this.value.get() === '',
             })}
+            data-test="submitButton"
           >
             <img src="/static/send.svg" alt="Send your message" />
           </button>

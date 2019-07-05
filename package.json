@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "build-test": "npm run lint && npm run build && npm run test",
-    "test": "npm run test:unit && npm run cypress:open",
+    "test": "npm run test:unit",
     "test:unit": "npx jest",
     "cypress:open": "npx cypress open",
     "lint": "npx eslint ./"

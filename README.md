@@ -48,3 +48,26 @@ or using Yarn
 ```bash
 yarn build-test
 ```
+
+Run in production
+```bash
+npm run start
+```
+
+or using Yarn
+```bash
+yarn start
+```
+
+# Functional tests
+To run the functional tests you must build and start the server first:
+```bash
+npm run build && npm run start
+```
+
+Then run cypress:
+```bash
+npm run cypress:open
+```
+
+You must click on "Run all tests" when cypress is open.
