@@ -2,10 +2,27 @@
 
 .container
   background $message-bg
-  margin-bottom $spacer
+  margin 0 auto $spacer auto
   padding $spacer-s
   border-radius $radius
   box-shadow $box-shadow
+  max-width 700px
+
+  &.private
+    background-color #bfbfbf
+    background-image url(/static/eye-off.svg)
+    background-repeat no-repeat
+    background-size 15px 15px
+    background-position 10px 10px
+
+  &.currentUser
+    text-align right
+
+    .author
+      flex-direction row-reverse
+
+      img
+        margin-left $spacer-s
 
 .author
   display flex

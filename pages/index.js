@@ -1,34 +1,16 @@
-import fetch from 'isomorphic-unfetch'
-import PropTypes from 'prop-types'
+import { parseCookies } from 'nookies'
+import Router from 'next/router'
 
-import Header from '../src/components/Header'
-import MessageList from '../src/components/MessageList'
+import Settings from '../src/components/Settings'
+
 import '../src/styles/base.styl'
 
-const Index = ({ messages }) => (
-  <div>
-    <Header />
-    <MessageList messages={messages} />
-  </div>
-)
+const Index = ({ username }) => <Settings username={username} />
 
-Index.getInitialProps = async () => {
-  const res = await fetch('http://localhost:3000/messages')
-  const messages = await res.json()
+Index.getInitialProps = ctx => {
+  const { username } = parseCookies(ctx)
 
-  return {
-    messages,
-  }
-}
-
-Index.propTypes = {
-  messages: PropTypes.arrayOf(
-    PropTypes.shape({
-      author: PropTypes.string,
-      content: PropTypes.string,
-      avatar: PropTypes.string,
-    })
-  ),
+  return { username }
 }
 
 export default Index

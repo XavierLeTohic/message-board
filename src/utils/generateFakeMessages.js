@@ -7,9 +7,11 @@ const faker = require('faker')
  */
 const generateFakeMessages = nbrOfMessages =>
   Array.from({ length: nbrOfMessages }, () => ({
+    uuid: faker.random.uuid(),
     author: faker.name.findName(),
     content: faker.hacker.phrase(),
     avatar: faker.image.avatar(),
+    isPrivate: false,
   }))
 
 module.exports = generateFakeMessages

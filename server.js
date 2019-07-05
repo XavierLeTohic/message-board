@@ -1,5 +1,8 @@
 const express = require('express')
 const next = require('next')
+const faker = require('faker')
+const bodyParser = require('body-parser')
+const cookieParser = require('cookie-parser')
 
 const generateFakeMessages = require('./src/utils/generateFakeMessages')
 
@@ -12,12 +15,41 @@ app
   .then(() => {
     const server = express()
 
-    // Pick a number between 10 and 25
-    const nbrOfMessages = Math.floor(Math.random() * 25) + 10
-    // Generate fake messages each time the server is launched
-    const fakeMessages = generateFakeMessages(nbrOfMessages)
+    server.use(bodyParser.json())
+    server.use(bodyParser.urlencoded({ extended: true }))
+    server.use(cookieParser())
 
-    server.get('/messages', (req, res) => res.json(fakeMessages))
+    // Generate fake messages each time the server is launched
+    const fakeMessages = generateFakeMessages(20)
+    const fakeUserAvatar = faker.image.avatar()
+
+    // GET all messages
+    server.get('/messages', (req, res) => {
+      const { username } = req.cookies
+      res.json(
+        fakeMessages.filter(message => {
+          if (message.isPrivate && username && message.author !== username) {
+            return false
+          }
+          return true
+        })
+      )
+    })
+
+    // POST new message
+    server.post('/message', (req, res) => {
+      const { author, content, isPrivate } = req.body
+
+      fakeMessages.push({
+        author,
+        content,
+        avatar: fakeUserAvatar,
+        uuid: faker.random.uuid(),
+        isPrivate,
+      })
+
+      return res.json({ messages: fakeMessages })
+    })
 
     server.get('*', (req, res) => {
       return handle(req, res)

@@ -8,9 +8,9 @@
     "build": "next build",
     "start": "NODE_ENV=production node server.js",
     "build-test": "npm run lint && npm run build && npm run test",
-    "test": "npm run test:unit && npm run test:cypress",
+    "test": "npm run test:unit && npm run cypress:open",
     "test:unit": "npx jest",
-    "test:cypress": "npx cypress",
+    "cypress:open": "npx cypress open",
     "lint": "npx eslint ./"
   },
   "husky": {
@@ -27,9 +27,15 @@
   },
   "dependencies": {
     "@zeit/next-stylus": "^1.0.1",
+    "body-parser": "^1.19.0",
+    "classnames": "^2.2.6",
+    "cookie-parser": "^1.4.4",
     "express": "^4.17.1",
     "isomorphic-unfetch": "^3.0.0",
+    "mobx": "^5.11.0",
+    "mobx-react": "^6.1.1",
     "next": "^8.1.0",
+    "nookies": "^2.0.6",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -37,6 +43,8 @@
     "stylus": "^0.54.5"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.0",
+    "@babel/plugin-proposal-decorators": "^7.4.4",
     "babel-eslint": "^10.0.2",
     "cypress": "^3.3.2",
     "eslint": "^6.0.1",
