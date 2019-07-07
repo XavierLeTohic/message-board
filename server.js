@@ -150,8 +150,6 @@ app
     // POST new message
     server.post('/message', (req, res) => {
       const { content, isPrivate } = req.body
-      console.log(req.session.username)
-      console.log(users)
       const { username, avatar } = users.find(({ username: name }) => name === req.session.username)
 
       fakeMessages.push({

@@ -5,22 +5,31 @@ import Settings from '../src/components/Settings'
 
 import '../src/styles/base.styl'
 
+/**
+ * Props username and avatar comes from the method getInitialProps below
+ */
 const Index = ({ username, avatar }) => <Settings username={username} avatar={avatar} />
 
+/**
+ * This method is called both on server-side and client-side by Next. It allow
+ * us to fetch data before and put it in our component as props.
+ */
 Index.getInitialProps = async ctx => {
   const options = {
     method: 'GET',
     credentials: 'include',
   }
 
+  // If server-side
   if (ctx && ctx.req) {
     options.headers = { cookie: ctx.req.headers.cookie }
   }
 
-  const profileRes = await fetch('http://localhost:3000/profile', options)
+  // Fetch the profile if there is one
+  const res = await fetch('http://localhost:3000/profile', options)
   const {
     data: { username, avatar },
-  } = await profileRes.json()
+  } = await res.json()
   let avatarUrl = avatar
 
   if (!avatarUrl) {

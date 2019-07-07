@@ -22,13 +22,18 @@ const ObserverMessageList = observer(
     }
 
     render() {
-      const { messages, username } = this.props
+      const { messages, currentUser } = this.props
 
       return (
         <div className={styles.container}>
           <div data-test="message-list">
             {messages.map((props, k) => (
-              <Message {...props} key={props.uuid} username={username} data-test={`message-${k}`} />
+              <Message
+                {...props}
+                key={props.uuid}
+                currentUser={currentUser}
+                data-test={`message-${k}`}
+              />
             ))}
           </div>
           <div
@@ -43,6 +48,7 @@ const ObserverMessageList = observer(
 )
 
 ObserverMessageList.propTypes = {
+  currentUser: PropTypes.string.isRequired,
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string,
@@ -50,7 +56,7 @@ ObserverMessageList.propTypes = {
       content: PropTypes.string,
       avatar: PropTypes.string,
     })
-  ),
+  ).isRequired,
 }
 
 export default ObserverMessageList

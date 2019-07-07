@@ -11,7 +11,7 @@ import BottomBar from '../src/components/BottomBar'
 
 import '../src/styles/base.styl'
 
-const ObserverBoard = observer(
+const ObservableBoard = observer(
   class Board extends Component {
     constructor(props) {
       super(props)
@@ -28,10 +28,16 @@ const ObserverBoard = observer(
           data: { messages },
         } = await res.json()
 
+        // Trigger an update only if there is some changes
         if (messages.length !== this.state.messages.length) {
-          this.setState({ messages })
+          this.onNewMessages(messages)
         }
-      }, 1250)
+      }, 1000)
+    }
+
+    componentWillUnmount() {
+      clearInterval(this.checkMessagesInterval)
+      this.checkMessagesInterval = null
     }
 
     onNewMessages(messages) {
@@ -44,7 +50,7 @@ const ObserverBoard = observer(
       return (
         <div>
           <Header />
-          <MessageList messages={messages} username={username} />
+          <MessageList messages={messages} currentUser={username} />
           <BottomBar onNewMessages={this.onNewMessages.bind(this)} />
         </div>
       )
@@ -52,7 +58,11 @@ const ObserverBoard = observer(
   }
 )
 
-ObserverBoard.getInitialProps = async ctx => {
+/**
+ * This method is called both on server-side and client-side by Next. It allow
+ * us to fetch data before and put it in our component as props.
+ */
+ObservableBoard.getInitialProps = async ctx => {
   const options = {
     method: 'GET',
     credentials: 'include',
@@ -89,7 +99,7 @@ ObserverBoard.getInitialProps = async ctx => {
   }
 }
 
-ObserverBoard.propTypes = {
+ObservableBoard.propTypes = {
   messages: PropTypes.arrayOf(
     PropTypes.shape({
       uuid: PropTypes.string,
@@ -100,4 +110,4 @@ ObserverBoard.propTypes = {
   ),
 }
 
-export default ObserverBoard
+export default ObservableBoard

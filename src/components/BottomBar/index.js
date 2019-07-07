@@ -92,7 +92,7 @@ const ObserverBottomBar = observer(
 )
 
 ObserverBottomBar.propTypes = {
-  onNewMessages: PropTypes.func,
+  onNewMessages: PropTypes.func.isRequired,
 }
 
 export default ObserverBottomBar

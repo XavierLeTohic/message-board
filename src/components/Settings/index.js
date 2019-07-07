@@ -70,6 +70,7 @@ const ObservableSettings = observer(
           <p className={styles.label}>Click to randomize</p>
           <input
             type="text"
+            data-test="name-input"
             maxLength={40}
             className={styles.input}
             placeholder="Type your name"
@@ -81,6 +82,7 @@ const ObservableSettings = observer(
           </div>
           <button
             type="submit"
+            data-test="submit-button"
             disabled={this.username.get() === ''}
             className={classNames({
               [styles.submit]: true,

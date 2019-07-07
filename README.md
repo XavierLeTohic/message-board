@@ -12,6 +12,17 @@ This project is:
 - Fully documented using JSDoc.
 - Formatted using Prettier.
 
+## Front-end
+1. This project uses Next.js which means that react is rendered on the server-side and on the client-side.
+2. The board allow multiple users to join and add messages.
+3. The user can add private messages only visible to himself.
+4. The board is refreshed every second with a simple interval that could be improved using web socket or HTTP2 push API.
+
+## Back-end
+1. A custom express server is used (see `server.js` at the root of the project)
+2. 20 fake messages and authors are generated when the server is launched using Faker.
+3. There is 5 custom routes on `server.js` that could be documented and we could validate the payload of each request using Joi.
+
 # Installation
 
 Clone this repository
@@ -72,18 +83,18 @@ or using Yarn
 yarn start
 ```
 
-# Functional tests
+# End to End tests
 
-To run the functional tests you must build and start the server first:
+To run the functional tests you must first build and start the server first:
 
 ```bash
 npm run build && npm run start
 ```
 
-Then run cypress:
+Then run cypress on another terminal:
 
 ```bash
 npm run cypress:open
 ```
 
-You must click on "Run all tests" when cypress is open.
+Click on `Run all specs`

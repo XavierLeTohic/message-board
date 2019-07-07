@@ -3,31 +3,30 @@ const faker = require('faker')
 describe('Settings page', () => {
   const randomName = faker.name.firstName()
 
-  cy.log(`Visiting http://localhost:3000`)
-  cy.visit('/')
-
   it('should have a title, an avatar, a text input and a save button disabled', () => {
+    cy.log(`Visiting http://localhost:3000`)
+    cy.visit('/')
     cy.get('h1')
       .should('be.visible')
       .contains('Settings')
     cy.get('[data-test="avatar"]').should('be.visible')
-    cy.get('input[type="text"]')
+    cy.get('[data-test="name-input"]')
       .should('be.visible')
       .invoke('attr', 'placeholder')
       .should('contain', 'Type your name')
-    cy.get('button[type="submit"]')
+    cy.get('[data-test="submit-button"]')
       .should('be.visible')
       .should('be.disabled')
   })
 
   it('should enable the submit button when filling the input', () => {
-    cy.get('input[type="text"]').type(randomName)
-    cy.get('button[type="submit"]').should('not.be.disabled')
+    cy.get('[data-test="name-input"]').type(randomName)
+    cy.get('[data-test="submit-button"]').should('not.be.disabled')
   })
 
   it('should disable the button when clearing the input value', () => {
-    cy.get('input[type="text"]').clear()
-    cy.get('button').should('be.disabled')
+    cy.get('[data-test="name-input"]').clear()
+    cy.get('[data-test="submit-button"]').should('be.disabled')
   })
 
   it('should randomize the avatar when clicking on it', () => {
@@ -43,8 +42,8 @@ describe('Settings page', () => {
   })
 
   it('should validate and redirect to /board', () => {
-    cy.get('input[type="text"]').type(randomName)
-    cy.get('button').click()
+    cy.get('[data-test="name-input"]').type(randomName)
+    cy.get('[data-test="submit-button"]').click()
     cy.wait(150)
     cy.location('pathname').should('eq', '/board')
   })
@@ -54,8 +53,8 @@ describe('Settings page', () => {
     cy.wait(250)
     cy.visit('/')
     cy.location('pathname').should('eq', '/')
-    cy.get('input[type="text"]').type(randomName)
-    cy.get('button').click()
+    cy.get('[data-test="name-input"]').type(randomName)
+    cy.get('[data-test="submit-button"]').click()
     cy.wait(150)
     cy.get('[data-test="error-label"]')
       .should('be.visible')
@@ -63,7 +62,7 @@ describe('Settings page', () => {
   })
 
   it('should clear the error label when typing a character', () => {
-    cy.get('input[type="text"]').type(`${randomName}s`)
+    cy.get('[data-test="name-input"]').type(`${randomName}s`)
     cy.get('[data-test="error-label"]').should('not.be.visible')
   })
 })
