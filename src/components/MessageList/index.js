@@ -26,7 +26,7 @@ const ObserverMessageList = observer(
 
       return (
         <div className={styles.container}>
-          <div data-test="messages">
+          <div data-test="message-list">
             {messages.map((props, k) => (
               <Message {...props} key={props.uuid} username={username} data-test={`message-${k}`} />
             ))}

@@ -21,7 +21,8 @@ const ObserverBottomBar = observer(
       this.value.set(value)
     }
 
-    async onSubmit() {
+    async onSubmit(e) {
+      e.preventDefault()
       const value = this.value.get()
       const isPrivate = this.isPrivate.get()
 
@@ -37,6 +38,7 @@ const ObserverBottomBar = observer(
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
+          credentials: 'include',
         })
         const {
           data: { messages },
@@ -50,7 +52,7 @@ const ObserverBottomBar = observer(
 
     render() {
       return (
-        <div className={styles.container}>
+        <form onSubmit={this.onSubmit.bind(this)} className={styles.container} data-test="form">
           <input
             className={styles.input}
             maxLength={MESSAGE_MAX_LENGTH}
@@ -58,7 +60,7 @@ const ObserverBottomBar = observer(
             placeholder="Type a message"
             value={this.value.get()}
             onChange={this.onValueChange.bind(this)}
-            data-test="messageInput"
+            data-test="message-input"
           />
           <label className={styles.privacyCheckbox} htmlFor="privacyCheckbox">
             <input
@@ -68,23 +70,22 @@ const ObserverBottomBar = observer(
               alt="Make your message private"
               checked={this.isPrivate.get()}
               onChange={({ target: { checked } }) => this.isPrivate.set(checked === true)}
-              data-test="privacyCheckbox"
+              data-test="privacy-checkbox"
             />
             <span className={styles.checkbox}></span>
           </label>
           <button
             type="submit"
-            onClick={this.onSubmit.bind(this)}
             disabled={this.value.get() === ''}
             className={classNames({
               [styles.sendButton]: true,
               [styles.disabled]: this.value.get() === '',
             })}
-            data-test="submitButton"
+            data-test="submit-button"
           >
             <img src="/static/send.svg" alt="Send your message" />
           </button>
-        </div>
+        </form>
       )
     }
   }

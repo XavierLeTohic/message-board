@@ -20,7 +20,8 @@ const ObservableSettings = observer(
       this.error = observable.box(false)
     }
 
-    async onSubmit() {
+    async onSubmit(e) {
+      e.preventDefault()
       const username = this.username.get()
       const avatar = this.avatar.get()
 
@@ -31,10 +32,10 @@ const ObservableSettings = observer(
         },
         body: JSON.stringify({ username, avatar }),
       })
-      const { error } = res.json()
+      const { error } = await res.json()
 
       if (error) {
-        return this.error.set(error)
+        return this.error.set(error.message)
       }
 
       Router.push('/board')
@@ -58,9 +59,10 @@ const ObservableSettings = observer(
       const { username, avatar } = this.props
       const error = this.error.get()
       return (
-        <div className={styles.container}>
+        <form onSubmit={this.onSubmit.bind(this)} className={styles.container}>
           <h1 className={styles.title}>Settings</h1>
           <Avatar
+            data-test="avatar"
             onClick={this.onAvatarClicked.bind(this)}
             src={this.avatar.get()}
             readOnly={false}
@@ -74,16 +76,18 @@ const ObservableSettings = observer(
             defaultValue={username}
             onChange={this.onInputChange.bind(this)}
           />
-          {error ? <p>{error}</p> : null}
+          <div data-test="error-label" className={styles.errorLabel}>
+            {error ? <p>{error}</p> : null}
+          </div>
           <button
-            onClick={this.onSubmit.bind(this)}
+            type="submit"
             disabled={this.username.get() === ''}
             className={classNames({
               [styles.submit]: true,
               [styles.disabled]: this.username.get() === '',
             })}
           ></button>
-        </div>
+        </form>
       )
     }
   }
