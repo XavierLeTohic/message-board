@@ -17,12 +17,14 @@
 
   &.currentUser
     text-align right
+    background-color white
 
     .author
       flex-direction row-reverse
 
-      img
-        margin-left $spacer-s
+      .name
+        margin-left 0
+        margin-right $spacer-s
 
 .author
   display flex
@@ -30,7 +32,5 @@
   font-size $text-small
   margin-bottom $spacer-s
 
-  img
-    height 30px
-    border-radius 50px
-    margin-right $spacer-s
+  .name
+    margin-left $spacer-s

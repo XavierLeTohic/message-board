@@ -8,10 +8,6 @@ import styles from './index.styl'
 
 const ObserverMessageList = observer(
   class MessageList extends Component {
-    onNewMessages(messages) {
-      this
-    }
-
     scrollToBottom = () => {
       this.end.scrollIntoView({ behavior: 'smooth' })
     }

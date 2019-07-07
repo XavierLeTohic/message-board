@@ -21,33 +21,30 @@ const ObserverBottomBar = observer(
       this.value.set(value)
     }
 
-    onSubmit() {
+    async onSubmit() {
       const value = this.value.get()
       const isPrivate = this.isPrivate.get()
-      const { username } = this.props
 
       if (value !== '') {
         const payload = {
-          author: username,
           content: value,
           isPrivate,
         }
 
-        fetch('/message', {
+        const postMessage = await fetch('/message', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(payload),
         })
-          .then(r => {
-            return r.json()
-          })
-          .then(({ messages }) => {
-            this.value.set('')
-            this.isPrivate.set(false)
-            this.props.onNewMessages(messages)
-          })
+        const {
+          data: { messages },
+        } = await postMessage.json()
+
+        this.value.set('')
+        this.isPrivate.set(false)
+        this.props.onNewMessages(messages)
       }
     }
 
@@ -95,7 +92,6 @@ const ObserverBottomBar = observer(
 
 ObserverBottomBar.propTypes = {
   onNewMessages: PropTypes.func,
-  username: PropTypes.string,
 }
 
 export default ObserverBottomBar

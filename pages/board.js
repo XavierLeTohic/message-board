@@ -2,7 +2,6 @@ import PropTypes from 'prop-types'
 import fetch from 'isomorphic-unfetch'
 import Router from 'next/router'
 import { Component } from 'react'
-import { parseCookies } from 'nookies'
 import { observable } from 'mobx'
 import { observer } from 'mobx-react'
 
@@ -22,6 +21,19 @@ const ObserverBoard = observer(
       }
     }
 
+    componentDidMount() {
+      this.checkMessagesInterval = setInterval(async () => {
+        const res = await fetch('http://localhost:3000/messages')
+        const {
+          data: { messages },
+        } = await res.json()
+
+        if (messages.length !== this.state.messages.length) {
+          this.setState({ messages })
+        }
+      }, 1250)
+    }
+
     onNewMessages(messages) {
       this.setState({ messages })
     }
@@ -33,7 +45,7 @@ const ObserverBoard = observer(
         <div>
           <Header />
           <MessageList messages={messages} username={username} />
-          <BottomBar username={username} onNewMessages={this.onNewMessages.bind(this)} />
+          <BottomBar onNewMessages={this.onNewMessages.bind(this)} />
         </div>
       )
     }
@@ -41,7 +53,19 @@ const ObserverBoard = observer(
 )
 
 ObserverBoard.getInitialProps = async ctx => {
-  const { username } = parseCookies(ctx.res)
+  const options = {
+    method: 'GET',
+    credentials: 'include',
+  }
+
+  if (ctx && ctx.req) {
+    options.headers = { cookie: ctx.req.headers.cookie }
+  }
+
+  const fetchProfile = await fetch('http://localhost:3000/profile', options)
+  const {
+    data: { username, avatar },
+  } = await fetchProfile.json()
 
   if (!username) {
     if (ctx && ctx.req) {
@@ -53,20 +77,14 @@ ObserverBoard.getInitialProps = async ctx => {
     return {}
   }
 
-  const options = {
-    method: 'GET',
-    credentials: 'include',
-  }
-
-  if (ctx && ctx.req) {
-    options.headers = { cookie: ctx.req.headers.cookie }
-  }
-
   const res = await fetch('http://localhost:3000/messages', options)
-  const messages = await res.json()
+  const {
+    data: { messages },
+  } = await res.json()
 
   return {
     username,
+    avatar,
     messages,
   }
 }

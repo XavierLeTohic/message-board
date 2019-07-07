@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 
+import Avatar from '../Avatar'
+
 import styles from './index.styl'
 
 const Message = ({ author, content, avatar, username, isPrivate }) => (
@@ -12,8 +14,8 @@ const Message = ({ author, content, avatar, username, isPrivate }) => (
     })}
   >
     <div className={styles.author}>
-      <img src={avatar} alt={`Avatar of ${author}`} loading="lazy" />
-      <div>{author === username ? 'You' : author}</div>
+      <Avatar src={avatar} />
+      <div className={styles.name}>{author === username ? 'You' : author}</div>
     </div>
     <div className={styles.content}>{content}</div>
   </div>
