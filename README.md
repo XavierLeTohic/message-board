@@ -1,6 +1,8 @@
 # Message board
 
-The goal of this exercise is to make an app that display a list of messages and allow the user to add a message to the list that can be public or private.
+The goal of this project is to make an app that display a list of messages and allow the user to add a message to the list that can be public or private.
+
+<img src="https://user-images.githubusercontent.com/6340490/60791968-0e962300-a165-11e9-8cf7-a2ee190fed9e.gif" width="auto" height="400">
 
 ## Important to know
 
